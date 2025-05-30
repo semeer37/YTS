@@ -305,4 +305,3 @@ Downloaded files are saved to `~/Downloads/YTS_Downloads/` by default.
 ## Disclaimer
 
 This tool is for educational purposes only. Please respect copyright laws and only download content that you have the legal right to access.
-```
