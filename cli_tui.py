@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 YTS API Terminal UI Application
 
@@ -587,4 +586,98 @@ class YTSApp(App):
     }
     
     #torrents_container {
-        layout: v
+        layout: vertical;
+        padding: 1 2;
+        width: 100%;
+        height: 30%;
+    }
+    
+    #download_container {
+        layout: vertical;
+        padding: 1 2;
+        width: 100%;
+        height: 40%;
+    }
+    
+    #download_container Button {
+        margin: 1 0;
+        width: 50%;
+    }
+    
+    #log_container {
+        layout: vertical;
+        padding: 1 2;
+        width: 100%;
+        height: 50%;
+    }
+    
+    #error_container {
+        layout: vertical;
+        content-align: center middle;
+        padding: 2 4;
+        width: 100%;
+        height: 100%;
+    }
+    """
+    
+    BINDINGS = [
+        Binding("q", "quit", "Quit"),
+        Binding("s", "push_screen('search')", "Search"),
+        Binding("b", "browse", "Browse"),
+    ]
+    
+    def compose(self) -> ComposeResult:
+        """Compose the application."""
+        yield Header(show_clock=True)
+        yield Container(
+            Label("YTS Movie Browser", classes="title"),
+            Static("Search and download movies from YTS.mx"),
+            Static(""),
+            Button("Search Movies", variant="primary", id="search_button"),
+            Button("Browse Latest", variant="default", id="browse_button"),
+            id="search_container",
+        )
+        yield Footer()
+    
+    def on_mount(self) -> None:
+        """Handle the mount event."""
+        # Create download directory if it doesn't exist
+        DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Handle button press events."""
+        if event.button.id == "search_button":
+            self.push_screen(SearchScreen())
+        elif event.button.id == "browse_button":
+            self.action_browse()
+    
+    def action_browse(self) -> None:
+        """Browse latest movies."""
+        self.push_screen(
+            LoadingScreen(next_screen="results", query=None),
+            {"query": None}
+        )
+
+
+@click.command()
+@click.option("--verbose", "-v", is_flag=True, help="Enable verbose output")
+@click.option("--quiet", "-q", is_flag=True, help="Suppress all output except errors")
+def main(verbose, quiet):
+    """YTS TUI - Search and download movies from YTS.mx"""
+    # Configure logging based on verbosity
+    if verbose:
+        logger.setLevel(logging.DEBUG)
+    elif quiet:
+        logger.setLevel(logging.ERROR)
+    
+    try:
+        app = YTSApp()
+        app.run()
+    except Exception as e:
+        logger.exception("Unexpected error")
+        console.print(f"[bold red]An unexpected error occurred:[/] {str(e)}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
