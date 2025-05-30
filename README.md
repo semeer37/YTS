@@ -1,4 +1,4 @@
-```markdown
+```
 # YTS Movie Browser
 
 A comprehensive toolkit for searching, browsing, and downloading movies from YTS.mx through both command-line and terminal user interfaces.
