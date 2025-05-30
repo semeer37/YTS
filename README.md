@@ -28,8 +28,6 @@ YTS Movie Browser is a comprehensive toolkit that provides multiple ways to inte
 2. **Terminal UI** (`cli_tui.py`): A rich terminal user interface built with Textual for keyboard-driven navigation
 3. **API Client Library** (`api.py`): A Python client for direct interaction with the YTS API
 
-All components share the same underlying API client, ensuring consistent behavior and reducing code duplication.
-
 ## Features
 
 ### Common Features
@@ -59,32 +57,6 @@ All components share the same underlying API client, ensuring consistent behavio
 - Scrollable movie details
 - Live download log panel
 
-## Project Structure
-
-```
-yts-movie-browser/
-├── api.py                 # YTS API client library
-├── cli.py                 # Interactive CLI application
-├── cli_tui.py             # Terminal UI application
-├── requirements.txt       # Project dependencies
-└── README.md              # Project documentation
-```
-
-### Code Integration
-
-Both CLI applications (`cli.py` and `cli_tui.py`) import the API client from `api.py`:
-
-```python
-# In cli.py and cli_tui.py
-from api import YTSClient, YTSAPIError, YTSRequestError, YTSResponseError, YTSParameterError
-```
-
-This modular approach ensures:
-- Consistent API interaction across applications
-- Easier maintenance (changes to API handling only need to be made in one place)
-- Reduced code duplication
-- Better separation of concerns
-
 ## Installation
 
 ### Requirements
@@ -95,15 +67,14 @@ This modular approach ensures:
   - rich
   - InquirerPy
   - textual
-  - pathlib
   - requests
 
 ### Setup
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/yts-movie-browser.git
-   cd yts-movie-browser
+   git clone https://github.com/semeer37/YTS.git
+   cd YTS
    ```
 
 2. Install dependencies:
